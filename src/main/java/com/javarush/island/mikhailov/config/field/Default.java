@@ -1,4 +1,4 @@
-package com.javarush.island.mikhailov.config;
+package com.javarush.island.mikhailov.config.field;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -7,12 +7,15 @@ public class Default {
     public static final int ROWS = 3;
     public static final int COLS = 3;
 
-    public static final int SHOW_ROWS = 5;
-    public static final int SHOW_COLS = 10;
-    public static final int CONSOLE_CELL_WITH = 3;
+    public static final int CONSOLE_SHOW_ROWS = 5;
+    public static final int CONSILE_SHOW_COLS = 10;
+    public static final int CONSOLE_CELL_CHAR_COUNT = 3;
     public static final int PERCENT_ANIMAL_SLIM = 4;
     public static final int PERCENT_PLANT_GROW = 15;
-    @JsonIgnore
+    public static final int WINDOW_WIDTH = 1024;
+    public static final int WINDOW_HEIGHT = 800;
+    public static final int WINDOW_CELL_ICON_COUNT = 4;
+
     static final String[] names = {
             "Wolf", "Boa", "Fox", "Bear", "Eagle",
             "Horse", "Deer", "Rabbit", "Mouse", "Goat", "Sheep", "Boar", "Buffalo", "Duck", "Caterpillar",
