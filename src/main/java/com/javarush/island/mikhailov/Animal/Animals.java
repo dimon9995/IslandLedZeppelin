@@ -5,14 +5,12 @@ import com.javarush.island.mikhailov.Interface.Movable;
 import com.javarush.island.mikhailov.config.Cell;
 import com.javarush.island.mikhailov.config.field.Map;
 import com.javarush.island.mikhailov.organizm.Organism;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Animals extends Organism implements Eating, Movable {
-
     public Animals(int COUNT_IN_CELL, String ICON, double MAX_WEIGHT_ORGANISM, int SPEED) {
         super(COUNT_IN_CELL, ICON, MAX_WEIGHT_ORGANISM, SPEED);
     }
@@ -30,38 +28,20 @@ public abstract class Animals extends Organism implements Eating, Movable {
         int x = currentCell.getX();
         int y = currentCell.getY();
         List<Cell> coordinate = new ArrayList<>();
-
-        if (x + stepLimit < widthX) {
-
-            coordinate.add(map[x + stepLimit][y]);
-        }
-        if (x - stepLimit >= 0) {
-            coordinate.add(map[x - stepLimit][y]);
-        }
-        if (y + stepLimit < heightY) {
-            coordinate.add(map[x][y + stepLimit]);
-        }
-        if (y - stepLimit >= 0) {
-            coordinate.add(map[x][y - stepLimit]);
-        }
+        if (x + stepLimit < widthX) coordinate.add(map[x + stepLimit][y]);
+        if (x - stepLimit >= 0) coordinate.add(map[x - stepLimit][y]);
+        if (y + stepLimit < heightY) coordinate.add(map[x][y + stepLimit]);
+        if (y - stepLimit >= 0) coordinate.add(map[x][y - stepLimit]);
         coordinate.add(currentCell);
-
         Collections.shuffle(coordinate);
         for (Cell targetCell : coordinate) {
-
-
             if (!targetCell.getLock().tryLock()) continue;
-
             try {
                 long sameTypeCount = targetCell.getOrganism().stream()
-                        .filter(o -> this.getClass().isInstance(o))
-                        .count();
-
+                        .filter(o -> this.getClass().isInstance(o)).count();
                 if (sameTypeCount < this.getCOUNT_IN_CELL()) {
                     return targetCell;
                 }
-
-
             } finally {
                 targetCell.getLock().unlock();
             }
@@ -70,9 +50,7 @@ public abstract class Animals extends Organism implements Eating, Movable {
     }
 
     @Override
-    public void eat(Cell currentCell) {
-
-    }
+    public void eat(Cell currentCell) { }
 
     @Override
     public void move(Cell currentCell, Map map) {
@@ -82,8 +60,7 @@ public abstract class Animals extends Organism implements Eating, Movable {
             if (this.getCurrent_weight() > this.getPENALTY_PER_MOVE() * stepLimit) {
                 Cell cell = anotherCell(map.getMap(), currentCell, stepLimit);
                 if (cell != currentCell) {
-                    Cell firstLockCell;
-                    Cell secondLockCell;
+                    Cell firstLockCell, secondLockCell;
                     if (compareCells(currentCell, cell) < 0) {
                         firstLockCell = currentCell;
                         secondLockCell = cell;
@@ -94,7 +71,6 @@ public abstract class Animals extends Organism implements Eating, Movable {
                     firstLockCell.getLock().lock();
                     try {
                         secondLockCell.getLock().lock();
-
                         try {
                             currentCell.getOrganism().remove(this);
                             cell.getOrganism().add(this);

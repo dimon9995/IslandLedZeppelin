@@ -31,9 +31,13 @@ public class GameServiceProcessor extends Thread {
 
     private void doOneStepGame() {
         if (!game.isFinished()) {
-            try (ExecutorService servicePool = Executors.newFixedThreadPool(CORE_POOL_SIZE)) {
+            ExecutorService servicePool = Executors.newFixedThreadPool(CORE_POOL_SIZE);
+            try {
+
                 services.forEach(servicePool::submit);
                 servicePool.shutdown();
+            }finally {
+                servicePool.shutdownNow();
             }
         } else {
             mainPool.shutdown();

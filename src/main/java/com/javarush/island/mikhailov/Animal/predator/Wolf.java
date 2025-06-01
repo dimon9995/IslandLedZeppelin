@@ -6,3 +6,4 @@ public class Wolf extends Predator {
         super(40, "\uD83D\uDC3A", 50, 3);
     }
 }
+

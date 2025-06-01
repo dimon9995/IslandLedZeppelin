@@ -15,3 +15,4 @@ public class Map {
         this.map = new Cell[height][width];
     }
 }
+
