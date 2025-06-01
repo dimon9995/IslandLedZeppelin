@@ -8,7 +8,4 @@ import lombok.Setter;
 @Setter(AccessLevel.PROTECTED)
 public class Setting {
     public static final String SETTING_YAML = "/khmelov/setting.yaml";
-
-
-
 }

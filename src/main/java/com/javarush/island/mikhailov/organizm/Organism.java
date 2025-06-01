@@ -1,20 +1,15 @@
 package com.javarush.island.mikhailov.organizm;
 
-
 import com.javarush.island.mikhailov.Interface.Reproduce;
 import com.javarush.island.mikhailov.config.Cell;
 import com.javarush.island.mikhailov.enums.Gender;
 import lombok.Data;
-import lombok.Getter;
-
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.ReentrantLock;
 
-@Getter
 @Data
 public abstract class Organism implements Reproduce, Cloneable {
-
     private final int COUNT_IN_CELL;
     private final String ICON;
     private final ReentrantLock lock = new ReentrantLock();
@@ -37,61 +32,49 @@ public abstract class Organism implements Reproduce, Cloneable {
         this.PENALTY_PER_MOVE = (this.current_weight * 0.05);
     }
 
-    public void setCurrent_weight(double current_weight) {
-        this.current_weight = current_weight;
-    }
-
-    public void setHungry(boolean hungry) {
-        this.hungry = hungry;
-    }
-
-    public void setCountOfStep(int countOfStep) {
-        this.countOfStep = countOfStep;
-    }
-
     @Override
     public void reproduce(Cell currentCell) {
         currentCell.getLock().lock();
         try {
-            long herCount = currentCell.getOrganism().stream().filter(a -> this.getClass().isInstance(a)).count();
+            long herCount = currentCell.getOrganism().stream()
+                    .filter(a -> this.getClass().isInstance(a))
+                    .count();
             if (herCount < this.getCOUNT_IN_CELL()) {
-                Optional<Organism> her = currentCell.getOrganism().stream().filter(a -> this.getClass().isInstance(a))
+                Optional<Organism> her = currentCell.getOrganism().stream()
+                        .filter(a -> this.getClass().isInstance(a))
                         .filter(a -> !a.getGENDER().equals(getGENDER()))
                         .findAny();
-                if (her.isEmpty()) {
+                if (her.isPresent()) {
                     Organism organism = her.get();
                     organism.getLock().lock();
                     try {
-
                         Organism clone = (Organism) organism.clone();
                         currentCell.getOrganism().add(clone);
                         this.getLock().unlock();
                     } finally {
                         organism.getLock().unlock();
                     }
-
                 }
             }
-
         } finally {
             this.setHungry(true);
             currentCell.getLock().unlock();
         }
     }
 
-
     @Override
     public Organism clone() {
         try {
             Organism clone = (Organism) super.clone();
             double weight = ThreadLocalRandom.current().nextDouble(current_weight / 2, current_weight);
-            current_weight = weight;
-            clone.hungry = true;
+            clone.setCurrent_weight(weight);
+            clone.setHungry(true);
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException("Error clone organism", e);
         }
     }
+
     public void dead(Cell currentCell) {
         this.getLock().lock();
         currentCell.getLock().lock();

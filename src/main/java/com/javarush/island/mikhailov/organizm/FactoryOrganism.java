@@ -147,6 +147,15 @@ public class FactoryOrganism {
                         }
                         break;
 
+                        case "Boar": {
+                            Boar originGrass = new Boar();
+                            int current_Count = ThreadLocalRandom.current().nextInt(0, (originGrass.getCOUNT_IN_CELL() + 1));
+                            for (int i1 = 0; i1 < current_Count; i1++) {
+                                cell.getOrganism().add(new Boar());
+
+                            }
+                        }
+
 
                     }
                 }
