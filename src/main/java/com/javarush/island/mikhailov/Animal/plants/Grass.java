@@ -6,7 +6,7 @@ import com.javarush.island.mikhailov.organizm.Organism;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Grass extends Organism {
-    public Grass(int COUNT_IN_CELL, String ICON, double MAX_WEIGHT_ORGANISM, int SPEED) {
+    public Grass() {
         super(200, "\uD83C\uDF3F", 1, 0);
     }
 

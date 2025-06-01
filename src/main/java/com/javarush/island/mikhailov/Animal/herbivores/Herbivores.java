@@ -7,7 +7,7 @@ import com.javarush.island.mikhailov.organizm.Organism;
 
 import java.util.Optional;
 
-public abstract class Herbivores extends Animals {
+public class Herbivores extends Animals {
 
     public Herbivores(int COUNT_IN_CELL, String ICON, double MAX_WEIGHT_ORGANISM, int SPEED) {
         super(COUNT_IN_CELL, ICON, MAX_WEIGHT_ORGANISM, SPEED);
