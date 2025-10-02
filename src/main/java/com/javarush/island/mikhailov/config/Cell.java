@@ -12,12 +12,10 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Cell {
     private int x;
     private int y;
-
     public Cell(int x, int y) {
         this.x = x;
         this.y = y;
     }
-
-    ArrayList<Organism> organism = new ArrayList<>();
+    private ArrayList<Organism> organism = new ArrayList<>();
     private final ReentrantLock lock = new ReentrantLock();
 }
